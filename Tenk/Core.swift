@@ -19,9 +19,52 @@ class Core: ObservableObject {
     var HKAuthorized: Bool = false
     var HKAvailable: Bool = HKHealthStore.isHealthDataAvailable()
     
+    let sample: [StepQuantity] = [
+        StepQuantity(date: Date(), count: 120),
+        StepQuantity(date: Date().addingTimeInterval(-3600), count: 300),
+        StepQuantity(date: Date().addingTimeInterval(-7200), count: 450),
+        StepQuantity(date: Date().addingTimeInterval(-10800), count: 600),
+        StepQuantity(date: Date().addingTimeInterval(-14400), count: 800),
+        StepQuantity(date: Date().addingTimeInterval(-18000), count: 250),
+        StepQuantity(date: Date().addingTimeInterval(-21600), count: 700),
+        StepQuantity(date: Date().addingTimeInterval(-25200), count: 150),
+        StepQuantity(date: Date().addingTimeInterval(-28800), count: 900),
+        StepQuantity(date: Date().addingTimeInterval(-32400), count: 400),
+        StepQuantity(date: Date().addingTimeInterval(-36000), count: 550),
+        StepQuantity(date: Date().addingTimeInterval(-39600), count: 200),
+        StepQuantity(date: Date().addingTimeInterval(-43200), count: 350),
+        StepQuantity(date: Date().addingTimeInterval(-46800), count: 480),
+        StepQuantity(date: Date().addingTimeInterval(-50400), count: 750),
+        StepQuantity(date: Date().addingTimeInterval(-54000), count: 100),
+        StepQuantity(date: Date().addingTimeInterval(-57600), count: 600),
+        StepQuantity(date: Date().addingTimeInterval(-61200), count: 420),
+        StepQuantity(date: Date().addingTimeInterval(-64800), count: 800),
+        StepQuantity(date: Date().addingTimeInterval(-68400), count: 300),
+        StepQuantity(date: Date().addingTimeInterval(-72000), count: 650),
+        StepQuantity(date: Date().addingTimeInterval(-75600), count: 180),
+        StepQuantity(date: Date().addingTimeInterval(-79200), count: 550),
+        StepQuantity(date: Date().addingTimeInterval(-82800), count: 700),
+        StepQuantity(date: Date().addingTimeInterval(-86400), count: 250)
+    ]
+    
     init() {
         requestHKAuthorization()
         fetchStepCountData()
+    }
+    
+    func cumulSteps() -> [StepQuantity] {
+        guard self.steps.count > 0 else {return []}
+        var acc: Double = 0
+        var cumulSteps = [StepQuantity(
+            date: Calendar.current.startOfDay(for: self.steps.first!.date),
+            count: acc
+        )]
+        for sq in self.steps {
+            cumulSteps.append(StepQuantity(date: sq.date, count: acc))
+            acc += sq.count
+            cumulSteps.append(StepQuantity(date: sq.date, count: acc))
+        }
+        return cumulSteps
     }
     
     func requestHKAuthorization() {
