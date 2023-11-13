@@ -17,7 +17,6 @@ struct MainView: View {
     var body: some View {
         VStack(spacing: 20) {
             Spacer()
-            Text("👟 Tenk Step Count 👟").font(.title).bold()
             Chart {
                 ForEach(core.cumulSteps(), id: \.date) { sq in
                     LineMark(
@@ -35,13 +34,6 @@ struct MainView: View {
             .padding(10)
             .frame(minHeight: 0, maxHeight: 400)
             
-            Button("Request HealthKit Authorization") {
-                core.requestHKAuthorization()
-            }
-            .padding(10)
-            .background(antiPrimary)
-            .cornerRadius(10)
-            .shadow(radius: 4)
             
             
             Button("Fetch Step Count") {
