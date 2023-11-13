@@ -7,10 +7,18 @@
 
 import Foundation
 import HealthKit
+import SwiftData
 
 struct StepQuantity {
     let date: Date
     let count: Double
+}
+
+
+struct LocalUser: Codable {
+    let identifier: String
+    let email: String
+    let name: PersonNameComponents
 }
 
 class Core: ObservableObject {
@@ -18,6 +26,7 @@ class Core: ObservableObject {
     @Published var steps: [StepQuantity] = []
     var HKAuthorized: Bool = false
     var HKAvailable: Bool = HKHealthStore.isHealthDataAvailable()
+    
     
     let sample: [StepQuantity] = [
         StepQuantity(date: Date(), count: 120),
@@ -47,10 +56,42 @@ class Core: ObservableObject {
         StepQuantity(date: Date().addingTimeInterval(-86400), count: 250)
     ]
     
+    
+    
+    @Published var localUser: LocalUser? = nil
+    @Published var notSignedIn: Bool = true
+    
+    func signOut() {
+        localUser = nil
+        notSignedIn = true
+        // remember that the user signed out
+        UserDefaults.standard.set(false, forKey: "signedIn")
+    }
+    
+    func retrieveUser() {
+        // can only retrieve user if logged in
+        guard UserDefaults.standard.bool(forKey: "signedIn") else { return }
+         
+        if let storedObject: Data = UserDefaults.standard.object(forKey: "localUser") as? Data {
+            print("got object")
+            do {
+                self.localUser = try PropertyListDecoder().decode(LocalUser.self, from: storedObject)
+                print("got user: \(String(describing: self.localUser))")
+                notSignedIn = false
+            } catch let error {
+                print("Error in signIn", error.localizedDescription)
+            }
+        }
+    }
+    
     init() {
         requestHKAuthorization()
         fetchStepCountData()
+        retrieveUser()
     }
+
+    
+    
     
     func cumulSteps() -> [StepQuantity] {
         guard self.steps.count > 0 else {return []}

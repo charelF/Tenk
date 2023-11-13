@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct TenkApp: App {
+    @StateObject var core = Core()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(core: core)
         }
     }
 }
