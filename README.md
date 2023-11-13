@@ -1,5 +1,8 @@
 
 
+<img src="https://github.com/charelF/Tenk/assets/29770094/8f5647fd-ecf3-443f-8a38-2a5ba2dfb379" width="400" />
+
+
 ## Enabling health kit
 
 - https://developer.apple.com/documentation/healthkit/setting_up_healthkit 
