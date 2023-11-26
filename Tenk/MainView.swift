@@ -33,20 +33,13 @@ struct MainView: View {
             .shadow(radius: 10)
             .padding(10)
             .frame(minHeight: 0, maxHeight: 400)
-            
-            
-            
-            Button("Fetch Step Count") {
+            .onTapGesture {
                 core.fetchStepCountData()
             }
-            .padding(10)
-            .background(antiPrimary)
-            .cornerRadius(10)
-            .shadow(radius: 10)
-            
+//            
             Spacer()
             
-        }.background(Color.primary.opacity(0.2))
+        }.background(BackgroundView())
     }
 }
 
