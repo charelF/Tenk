@@ -5,6 +5,8 @@
 //  Created by Charel Felten on 09/11/2023.
 //
 
+// Notes: https://developer.apple.com/videos/play/wwdc2022/10122/
+
 import Foundation
 import HealthKit
 import SwiftData
@@ -17,8 +19,8 @@ struct StepQuantity {
 
 struct LocalUser: Codable {
     let identifier: String
-    let email: String
-    let name: PersonNameComponents
+    let email: String?
+    let name: PersonNameComponents?
 }
 
 class Core: ObservableObject {

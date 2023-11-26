@@ -14,7 +14,7 @@ struct TenkApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(core: core)
+            AppView()
         }
     }
 }

@@ -12,16 +12,17 @@ struct ContentView: View {
     @ObservedObject var core: Core
     
     var body: some View {
-        TabView {
-            MainView(core: core)
-                .tabItem {Label("Tenk", systemImage: "chart.bar.fill")}
-            AboutView(core: core)
-                .tabItem {Label("About", systemImage: "info.circle.fill")}
-        }
-        .sheet(isPresented: $core.notSignedIn) {
-            SignInView(core: core)
-            .interactiveDismissDisabled()
-        }
+        SupabaseSignInView()
+//        TabView {
+//            MainView(core: core)
+//                .tabItem {Label("Tenk", systemImage: "chart.bar.fill")}
+//            AboutView(core: core)
+//                .tabItem {Label("About", systemImage: "info.circle.fill")}
+//        }
+//        .sheet(isPresented: $core.notSignedIn) {
+//            SignInView(core: core)
+//            .interactiveDismissDisabled()
+//        }
     }
     
     
